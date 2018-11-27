@@ -75,7 +75,7 @@ public class ServiceOrdenTrabajo {
 				otd.setFecha_real_fin(new java.sql.Date((fechaActual).getTime()));
 				otd.setId_estado(Constante.OT_POR_APROBAR);
 				ordenTrabajoDetalleBD.update(otd);
-				estadoRes = "200";
+				estadoRes = "200"; 
 				mensaje = "Orden de trabajo pendiente de aprobacion";
 			} else {
 				estadoRes = "400";
