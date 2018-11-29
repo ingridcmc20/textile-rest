@@ -26,7 +26,7 @@ public class OrdenTrabajoBD {
 				"inner join victorian.t_estado es on es.id_estado=otd.id_estado "+
 				"inner join victorian.t_ordentrabajo_operario oto on oto.id_ordentrabajo=ot.id_ordentrabajo "+
 				"inner join victorian.t_operario o on o.id_operario=oto.id_operario "+
-				"WHERE	ot.id_estado in (7,8) and otd.id_estado in (7,8) and otd.id_etapa=? and o.id_usuario=? "+
+				"WHERE	ot.id_estado in (7,8) and otd.id_estado in (7) and otd.id_etapa=? and o.id_usuario=? "+
 				"ORDER BY otd.id_etapa desc, ot.fecha_entrega desc";
 		Connection conn = null;
 		PreparedStatement preparedStatement = null;
@@ -35,8 +35,8 @@ public class OrdenTrabajoBD {
 		try {
 			conn = ConectionDB.getConnection();
 			preparedStatement = conn.prepareStatement(sql);
-			preparedStatement.setInt(1, etapa);
-			preparedStatement.setInt(2, id_usuario);
+			preparedStatement.setInt(1, 2);
+			preparedStatement.setInt(2, 517);
 			resultSet = preparedStatement.executeQuery();
 			listaOrdenesTrabajo = new ArrayList<VOOrdenTrabajo>();
 			while (resultSet.next()) {
@@ -84,4 +84,37 @@ public class OrdenTrabajoBD {
 		return listaOrdenesTrabajo;
 
 	}
+	
+	public void update(VOOrdenTrabajo paramOT) {
+		String sql = "UPDATE victorian.t_orden_trabajo SET id_estado=? WHERE id_ordentrabajo=?";
+		Connection conn = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			conn = ConectionDB.getConnection();
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.setInt(1, paramOT.getId_estado());
+			preparedStatement.setInt(2, paramOT.getId_ordentrabajo());
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
 }

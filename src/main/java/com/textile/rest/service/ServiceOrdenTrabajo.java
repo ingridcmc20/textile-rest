@@ -67,13 +67,27 @@ public class ServiceOrdenTrabajo {
 		String estadoRes = null;
 		String mensaje = "";
 		OrdenTrabajoDetalleBD ordenTrabajoDetalleBD = new OrdenTrabajoDetalleBD();
+		OrdenTrabajoBD ordenTrabajoBD = new OrdenTrabajoBD();
 
 		try {
 			VOrdenTrabajoDetalle otd = ordenTrabajoDetalleBD.findByIdOrdenByEstapa(paramOT);
 
 			if (otd != null) {
 				otd.setFecha_real_fin(new java.sql.Date((fechaActual).getTime()));
-				otd.setId_estado(Constante.OT_POR_APROBAR);
+				if(paramOT.getId_etapa() == 2 || paramOT.getId_etapa() == 3){
+					otd.setId_estado(Constante.OT_POR_APROBAR);	
+				}
+				else if(paramOT.getId_etapa() == 1){
+					otd.setId_estado(Constante.OT_TERMINADO);
+					paramOT.setId_estado(Constante.OT_EN_CURSO);
+					ordenTrabajoBD.update(paramOT);
+				}
+				else{
+					otd.setId_estado(Constante.OT_TERMINADO);
+					paramOT.setId_estado(Constante.OT_TERMINADO);
+					ordenTrabajoBD.update(paramOT);
+				}
+				
 				ordenTrabajoDetalleBD.update(otd);
 				estadoRes = "200";
 				mensaje = "Orden de trabajo pendiente de aprobacion";
