@@ -1,6 +1,8 @@
 ## Pasos
 ### Compilar 
 
+mvn -Dhttps.protocols=TLSv1.2 install
+
 mvn clean install
 
 ### Copiar war en Tomcat
@@ -12,12 +14,37 @@ Iniciar tomcat.
 
 ### Probar URLS
 
-<<Ruta cloud>>/textile-rest/login/validaUsuario
+#### Lista Ordenes de trabajo por usuario
 
-Input:
+http://localhost:8080/textile-rest/services/ot/listaOTXUsuario
+
 {
-	"login":"irakitic",
-	"password":"123"
+	"id_perfil_sel" : "3",
+	"id_usuario" : "3"
 }
 
-El resultado debe arrojar un JSON.
+#### Validar usuario
+
+http://localhost:8080/textile-rest/services/login/validaUsuario
+
+{
+	"login" : "jalvarado",
+	"password" : "123"
+}
+
+#### Terminar orden de trabajo
+
+http://localhost:8080/textile-rest/services/ot/terminarOT
+
+{
+	"id_ordentrabajo" : "1",
+	"id_etapa" : "1"
+}
+
+#### Listar pedidos por cliente
+
+http://localhost:8080/textile-rest/services/pedido/listaPedidoXCliente
+
+{
+	"id_empresa" : "1"
+}
