@@ -26,7 +26,7 @@ public class OrdenTrabajoBD {
 				"inner join victorian.t_estado es on es.id_estado=otd.id_estado "+
 				"inner join victorian.t_ordentrabajo_operario oto on oto.id_ordentrabajo=ot.id_ordentrabajo "+
 				"inner join victorian.t_operario o on o.id_operario=oto.id_operario "+
-				"WHERE	ot.id_estado in (7,8) and otd.id_estado in (7) and otd.id_etapa=? and o.id_usuario=? "+
+				"WHERE	ot.id_estado in (6,7) and otd.id_estado in (6) and otd.id_etapa=? and o.id_usuario=? "+
 				"ORDER BY otd.id_etapa desc, ot.fecha_entrega desc";
 		Connection conn = null;
 		PreparedStatement preparedStatement = null;
@@ -35,8 +35,8 @@ public class OrdenTrabajoBD {
 		try {
 			conn = ConectionDB.getConnection();
 			preparedStatement = conn.prepareStatement(sql);
-			preparedStatement.setInt(1, 2);
-			preparedStatement.setInt(2, 517);
+			preparedStatement.setInt(1, etapa);
+			preparedStatement.setInt(2, id_usuario);
 			resultSet = preparedStatement.executeQuery();
 			listaOrdenesTrabajo = new ArrayList<VOOrdenTrabajo>();
 			while (resultSet.next()) {
