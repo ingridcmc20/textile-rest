@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 import com.textile.db.conn.ConectionDB;
 import com.textile.vo.VOOperario;
-
+ 
 public class OperarioBD { 
 	public VOOperario obtenerOperario(Integer id_usuario) {
 		String sql = "select id_operario,id_tipooperario,puntaje_acumulado,id_usuario,activo from victorian.t_operario where id_usuario=?";
